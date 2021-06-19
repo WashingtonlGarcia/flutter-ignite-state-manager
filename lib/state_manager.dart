@@ -1,17 +1,23 @@
+typedef StateFunction = void Function(dynamic state);
+
 class StateManager {
   var _state;
-  var _onUpdate;
+  var _onUpdate = <StateFunction>[];
 
   void setState(var state) {
     _state = state;
-    if (_onUpdate != null) {
-      _onUpdate = _state;
-    }
+    _update();
   }
 
   get state => _state;
 
-  void listen(void Function(dynamic state) onUpdate) {
-    _onUpdate = onUpdate;
+  void _update() {
+    for (final StateFunction function in _onUpdate) {
+      function(state);
+    }
+  }
+
+  void listen(StateFunction onUpdate) {
+    _onUpdate.add(onUpdate);
   }
 }

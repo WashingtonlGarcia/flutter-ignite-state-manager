@@ -9,7 +9,13 @@ void main() {
 
   test('Testing the State manager', () {
     expect(controller.state, isNull);
+    controller.listen((state) {
+      expect(controller.state, 'changing');
+    });
     controller.setState('changing');
-    expect(controller.state, 'changing');
+    controller.listen((state) {
+      expect(controller.state, 'changing2');
+    });
+    expect(controller.state, 'changing2');
   });
 }
