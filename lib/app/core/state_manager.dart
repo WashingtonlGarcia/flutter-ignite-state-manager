@@ -1,8 +1,10 @@
 typedef StateFunction<T> = void Function(T state);
 
-class StateManager<T> {
-  late T _state;
+abstract class StateManager<T> {
+  T _state;
   var _onUpdate = <StateFunction<T>>[];
+
+  StateManager({required T initialState}) : _state = initialState;
 
   void setState(T state) {
     _state = state;
