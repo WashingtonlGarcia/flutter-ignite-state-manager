@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'widgets/count_widget.dart';
+import '../../core/builder_widget.dart';
 import 'home_controller.dart';
 
 class HomeView extends StatelessWidget {
@@ -10,9 +10,16 @@ class HomeView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('State Manager'),
+          title: Text('Gerência de Estado'),
         ),
         floatingActionButton: FloatingActionButton(child: Icon(Icons.add), onPressed: () => controller.setState(controller.state + 1)),
-        body: CountWidget(controller: controller));
+        body: BuilderWidget<HomeController>(
+          controller: controller,
+          builder: (BuildContext context, HomeController controller) {
+            return Center(
+              child: Text(controller.state.toString()),
+            );
+          },
+        ));
   }
 }

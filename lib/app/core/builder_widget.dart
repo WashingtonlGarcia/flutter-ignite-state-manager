@@ -1,17 +1,19 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_state_manager/app/core/state_manager.dart';
+import 'package:flutter/material.dart';
+import 'state_manager.dart';
+
+typedef Builder<T> = Widget Function(BuildContext context, T state);
 
 class BuilderWidget<T extends StateManager> extends StatefulWidget {
   final T controller;
-  final Widget Function(BuildContext context, T state) builder;
+  final Builder<T> builder;
 
   BuilderWidget({Key? key, required this.controller, required this.builder}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => BuilderState();
+  State<StatefulWidget> createState() => BuilderState<T>();
 }
 
-class BuilderState extends State<BuilderWidget> {
+class BuilderState<T extends StateManager> extends State<BuilderWidget<T>> {
   @override
   void initState() {
     widget.controller.listen((state) {
@@ -21,5 +23,5 @@ class BuilderState extends State<BuilderWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => widget.builder(context, widget.controller.state);
+  Widget build(BuildContext context) => widget.builder(context, widget.controller);
 }
